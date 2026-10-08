@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Worksheet Studio 3.0</title>
+<style>
+:root{
+  --ink:#182238; --muted:#61708a; --paper:#fff; --bg:#eef3ff;
+  --violet:#7157ff; --cyan:#22c7e8; --pink:#ff4fa3; --yellow:#ffd34d;
+  --green:#58d68d; --orange:#ff9b54; --blue:#4d8dff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#e9f4ff,#f9eaff);color:var(--ink)}
+button,select,input{font:inherit}
+button{cursor:pointer}
+.top{padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.brand{display:flex;gap:12px;align-items:center}.mark{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,var(--violet),var(--pink));color:#fff;display:grid;place-items:center;font-size:24px;font-weight:900;box-shadow:0 10px 25px #7157ff40}
+.brand h1{margin:0;font-size:24px}.brand p{margin:3px 0;color:var(--muted);font-size:12px}
+.pill{background:#fff;border:1px solid #dce5f3;padding:9px 12px;border-radius:99px;font-size:12px;color:#52617b}
+.wrap{width:min(1180px,92vw);margin:auto}.hero{padding:20px 0 25px}.hero h2{font-size:clamp(30px,5vw,52px);margin:0 0 8px;line-height:1}.hero h2 span{background:linear-gradient(90deg,#7157ff,#ff4fa3,#ff9b54);-webkit-background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:720px}
+.layout{display:grid;grid-template-columns:360px 1fr;gap:18px}.panel{background:#ffffffcc;border:1px solid #dfe7f5;border-radius:24px;padding:18px;box-shadow:0 15px 45px #5b6f9c18}.panel h3{margin:0 0 15px}.field{margin:11px 0}.field label{display:block;font-size:11px;font-weight:800;color:#68768e;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}select,input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid #d5dfed;background:#fff;color:var(--ink)}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.btn{padding:12px;border-radius:12px;border:0;font-weight:800;background:#eaf0fb;color:#283650}.primary{background:linear-gradient(135deg,#7157ff,#a04dff);color:#fff}.print{background:linear-gradient(135deg,#17bfe1,#45d998);color:#05201d}.pink{background:linear-gradient(135deg,#ff4fa3,#ff7f73);color:#fff}.hint{font-size:11px;color:#6b7890;line-height:1.5;background:#f5f8ff;border-radius:14px;padding:11px;margin-top:12px}
+.stage{min-height:600px;display:flex;justify-content:center;align-items:flex-start;padding:10px}.empty{background:#fff;border:2px dashed #ccd8ea;border-radius:20px;padding:60px 25px;text-align:center;color:#73819a;width:100%}
+
+/* PRINTABLE A4 */
+.paper{width:210mm;min-height:297mm;background:#fff;position:relative;overflow:hidden;box-shadow:0 15px 50px #3d4d6b35;border-radius:5px;padding:0}
+.page{width:210mm;min-height:297mm;position:relative;padding:17mm 16mm 15mm;overflow:hidden;break-after:page}
+.page:last-child{break-after:auto}
+.cover{background:linear-gradient(145deg,#7157ff 0%,#8b5cf6 34%,#ff4fa3 73%,#ff9b54 100%);color:#fff}
+.cover:before,.cover:after{content:"";position:absolute;border-radius:50%;background:#ffffff22}.cover:before{width:95mm;height:95mm;right:-30mm;top:-20mm}.cover:after{width:70mm;height:70mm;left:-30mm;bottom:-18mm}
+.cover .topline{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:1px}.cover h1{font-size:38px;line-height:1.03;margin:42mm 0 5mm;max-width:155mm}.cover .subtitle{font-size:16px;opacity:.92;max-width:145mm}.cover .tag{display:inline-block;background:#fff;color:#7157ff;padding:8px 12px;border-radius:99px;font-weight:800;margin-top:15px;font-size:11px}.cover .name{position:absolute;left:16mm;right:16mm;bottom:22mm;background:#ffffff1c;border:1px solid #ffffff45;border-radius:18px;padding:14px}.cover .name div{margin:8px 0;border-bottom:1px solid #ffffff99;padding-bottom:6px;font-size:12px}
+.section{background:linear-gradient(180deg,#f8fbff,#fff)}
+.ribbon{display:inline-block;padding:7px 11px;border-radius:9px;background:var(--violet);color:#fff;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}
+.section h2{font-size:28px;margin:10px 0 4px}.lead{color:var(--muted);font-size:13px;line-height:1.5}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.info{border-radius:17px;padding:15px;min-height:100px}.info h3{margin:0 0 7px;font-size:16px}.info p{margin:0;font-size:12px;line-height:1.5}.c1{background:#e7f6ff}.c2{background:#fff0f7}.c3{background:#fff7da}.c4{background:#e9faef}
+.activity{margin-top:18px;border-radius:20px;border:2px solid #e0e7f2;padding:15px;background:#fff}.activity h3{margin:0 0 5px;font-size:17px}.activity small{color:#77849a}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.match div{padding:10px;border-radius:11px;font-size:12px}.left{background:#eef0ff}.right{background:#fff0f7}
+.blanks{margin-top:12px;display:grid;gap:10px}.blank{border-bottom:2px dashed #98a7bc;min-height:28px;font-size:13px}
+.bigBox{height:115px;border:2px dashed #aebbd0;border-radius:15px;margin-top:12px;display:flex;align-items:center;justify-content:center;color:#93a0b3;font-size:12px}
+.footer{position:absolute;bottom:8mm;left:16mm;right:16mm;display:flex;justify-content:space-between;font-size:9px;color:#8491a5;border-top:1px solid #e3e8f0;padding-top:6px}
+.badgeBig{font-size:44px;margin-bottom:8px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.stage{overflow:auto}.paper{transform-origin:top center}.top{padding:15px}.wrap{width:94vw}}
+@media print{
+ body{background:#fff!important}.no-print{display:none!important}.wrap{width:100%;margin:0}.layout{display:block}.stage{padding:0}.paper{box-shadow:none;border-radius:0}.top,.hero,.panel{display:none!important}
+ @page{size:A4;margin:0}
+ .page{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* Theme presets */
+.paper.theme-space .cover{background:linear-gradient(145deg,#101a55,#2849a8 40%,#7b4dff 72%,#e84cff)}
+.paper.theme-animal .cover{background:linear-gradient(145deg,#0b9b72,#48c96b 45%,#ffd35b 75%,#ff8b4f)}
+.paper.theme-pastel .cover{background:linear-gradient(145deg,#8d7aff,#a9e7ff 38%,#ff9bd0 72%,#ffd98a)}
+.paper.theme-islamic .cover{background:linear-gradient(145deg,#064e3b,#0f766e 45%,#19a974 72%,#d5a928)}
+.paper.theme-science .cover{background:linear-gradient(145deg,#09203f,#075985 42%,#06b6d4 70%,#7c3aed)}
+.paper.theme-space .ribbon{background:#4f46e5}
+.paper.theme-animal .ribbon{background:#0b9b72}
+.paper.theme-pastel .ribbon{background:#8d5cf6}
+.paper.theme-islamic .ribbon{background:#0f766e}
+.paper.theme-science .ribbon{background:#075985}
+
+.paper.theme-ocean .cover{background:linear-gradient(145deg,#023047,#0077b6 42%,#00b4d8 70%,#90e0ef)}
+.paper.theme-forest .cover{background:linear-gradient(145deg,#14532d,#15803d 45%,#65a30d 72%,#facc15)}
+.paper.theme-ocean .ribbon{background:#0077b6}.paper.theme-forest .ribbon{background:#15803d}
+.template-banner{margin-top:12px;border-radius:15px;padding:11px 13px;background:linear-gradient(135deg,#f0f4ff,#fff);border:1px solid #dce5f4;font-size:11px;color:#596982}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.feature{padding:9px;border-radius:13px;background:#fff;border:1px solid #e0e7f2;text-align:center;font-size:10px;font-weight:700}.feature b{display:block;font-size:20px;margin-bottom:3px}
+@media(max-width:700px){.feature-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="no-print">
+<header class="top">
+ <div class="brand"><div class="mark">✦</div><div><h1>Worksheet Studio <b style="color:#7157ff">3.0</b></h1><p>Worksheet visual • bukan sekadar kumpulan soal</p></div></div>
+ <div class="pill">A4 • Color Full • Siap Print</div>
+</header>
+</div>
+<main class="wrap">
+<section class="hero no-print"><h2>Bikin worksheet yang <span>cantik & interaktif.</span></h2><p>Formatnya seperti mini-presentasi belajar: ada cover, ringkasan materi, kartu konsep, aktivitas mencocokkan, melengkapi, menggambar, dan mini-project.</p></section>
+<div class="layout">
+<aside class="panel no-print">
+<h3>🎨 Buat Worksheet</h3>
+<div class="field"><label>Kelas</label><select id="kelas"></select></div>
+<div class="field"><label>Mata Pelajaran</label><select id="mapel"></select></div>
+<div class="field"><label>Materi</label><select id="materi"></select></div>
+<div class="field"><label>Gaya</label><select id="gaya">
+<option value="visual">🌈 Visual Learning</option>
+<option value="activity">🎯 Activity Sheet</option>
+<option value="project">🚀 Mini Project</option>
+</select></div>
+<div class="field"><label>Judul Worksheet</label><input id="judul" placeholder="Contoh: Petualangan Pecahan"></div>
+<div class="field"><label>Nama Sekolah (opsional)</label><input id="sekolah" placeholder="SD Nusantara"></div>
+<div class="buttons">
+<button class="btn primary" id="generate">✨ Generate</button>
+<button class="btn" id="regen">🔀 Variasi</button>
+<button class="btn pink" id="print">🖨️ Print / PDF</button>
+<button class="btn print" id="full">📄 Tampilan A4</button>
+</div>
+<div id="templatePreview" class="template-banner">✨ Pilih template untuk mengubah gaya aktivitas.</div><div class="hint">📌 <b>Catatan:</b> hasil dibuat dalam ukuran A4 sebenarnya. Saat print, pilih ukuran kertas A4 dan aktifkan <b>Background graphics</b> agar warna ikut tercetak.</div>
+</aside>
+<section class="stage">
+<div id="empty" class="empty"><div style="font-size:55px">🪄</div><h3>Belum ada worksheet</h3><p>Pilih kelas, mapel, dan materi lalu tekan <b>Generate</b>.</p></div>
+<div id="paper" class="paper" style="display:none"></div>
+</section>
+</div>
+</main>
+<script>
+const DB={
+"1":{"Matematika":["Bilangan 1–20","Penjumlahan","Pengurangan","Bentuk dan Pola","Bangun Datar"],"Bahasa Indonesia":["Mengenal Kata","Kalimat Sederhana","Membaca","Menulis","Kosakata"],"Bahasa Inggris":["Colors","Numbers","Family","Greetings"],"PAI":["Rukun Islam","Rukun Iman","Wudu","Adab"],"IPAS":["Pancaindra","Keluarga","Hewan dan Tumbuhan","Lingkungan"]},
+"2":{"Matematika":["Bilangan sampai 100","Perkalian Dasar","Pembagian Dasar","Panjang dan Berat","Bangun Datar"],"Bahasa Indonesia":["Kalimat Tanya","Cerita Pendek","Kosakata","Petunjuk"],"Bahasa Inggris":["Family","Daily Activities","Numbers","Things Around Me"],"PAI":["Salat","Wudu","Akhlak","Nabi dan Rasul"],"IPAS":["Pancaindra","Hewan dan Tumbuhan","Cuaca","Benda"]},
+"3":{"Matematika":["Bilangan sampai 1.000","Perkalian dan Pembagian","Pecahan Sederhana","Pengukuran","Data"],"Bahasa Indonesia":["Ide Pokok","Dongeng","Teks Informasi","Kosakata"],"Bahasa Inggris":["Time","Food and Drinks","Hobbies","Places"],"PAI":["Asmaul Husna","Salat Berjamaah","Puasa","Akhlak"],"IPAS":["Siklus Hidup","Gaya dan Gerak","Energi","Lingkungan"]},
+"4":{"Matematika":["Bilangan Cacah","Faktor dan Kelipatan","Pecahan","Desimal","Bangun Datar","Data"],"Bahasa Indonesia":["Ide Pokok","Teks Deskripsi","Teks Narasi","Puisi","Wawancara"],"Bahasa Inggris":["Introducing Self","Daily Routines","Food","Directions","Simple Present"],"PAI":["Surah Pendek","Asmaul Husna","Salat","Puasa","Zakat"],"IPAS":["Tumbuhan","Wujud Zat","Gaya","Energi","Siklus Air","Peta"],},
+"5":{"Matematika":["Operasi Pecahan","Desimal dan Persen","KPK dan FPB","Bangun Ruang","Volume","Kecepatan","Data"],"Bahasa Indonesia":["Teks Eksplanasi","Teks Persuasi","Ringkasan","Iklan","Surat","Pantun"],"Bahasa Inggris":["Simple Present","Present Continuous","Past Events","Descriptions","Instructions"],"PAI":["Al-Qur'an","Iman kepada Rasul","Salat","Puasa","Zakat","Akhlak"],"IPAS":["Sistem Organ Tubuh","Ekosistem","Siklus Air","Energi","Bumi dan Cuaca"]},
+"6":{"Matematika":["Operasi Bilangan","Pecahan dan Persen","Perbandingan","Bangun Ruang","Volume","Kecepatan dan Jarak","Penyajian Data"],"Bahasa Indonesia":["Teks Eksplanasi","Pidato","Teks Persuasi","Ringkasan","Kalimat Efektif","Literasi"],"Bahasa Inggris":["Past Tense","Future Plans","Descriptions","Instructions","Conversation"],"PAI":["Al-Qur'an dan Hadis","Hari Akhir","Zakat dan Sedekah","Haji","Akhlak","Sejarah Islam"],"IPAS":["Tata Surya","Listrik","Ekosistem","Perubahan Lingkungan","Benua dan Negara","Kegiatan Ekonomi"]}};
+const $=x=>document.getElementById(x);
+function fill(id,a){$(id).innerHTML=a.map(x=>`<option>${x}</option>`).join("")}
+fill("kelas",Object.keys(DB).map(x=>"Kelas "+x));fill("mapel",Object.keys(DB["1"]));
+function cls(){return $("kelas").value.replace("Kelas ","")}
+function mat(){fill("materi",DB[cls()][$("mapel").value])}
+$("kelas").onchange=()=>{fill("mapel",Object.keys(DB[cls()]));mat()}
+$("mapel").onchange=mat;mat();
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function content(){
+ const c=cls(),m=$("mapel").value,t=$("materi").value;
+ const info={
+ "Pecahan":["Pecahan adalah bagian dari satu kesatuan. Pembilang menunjukkan bagian yang diambil, penyebut menunjukkan jumlah bagian yang sama besar.","🍕 Bayangkan satu pizza dibagi menjadi beberapa bagian yang sama besar.","Coba temukan pecahan di sekitar rumahmu."],
+ "Penjumlahan":["Penjumlahan berarti menggabungkan dua bilangan atau lebih untuk mendapatkan jumlah keseluruhan.","🧩 Gabungkan kelompok benda untuk menemukan jumlahnya.","Buat 3 contoh penjumlahan dari benda di sekitarmu."],
+ "Pengurangan":["Pengurangan digunakan ketika sebagian jumlah diambil atau berkurang.","🎈 Bayangkan beberapa balon, lalu beberapa balon dilepas.","Ceritakan satu kejadian sehari-hari yang menggunakan pengurangan."],
+ "Bangun Datar":["Bangun datar adalah bentuk dua dimensi. Contohnya persegi, persegi panjang, segitiga, dan lingkaran.","🔷 Amati benda di sekitarmu dan cari bentuk bangun datarnya.","Gambarlah satu benda yang memiliki bentuk bangun datar."],
+ "Ide Pokok":["Ide pokok adalah gagasan utama yang menjadi inti pembahasan sebuah paragraf.","💡 Tanyakan: “Paragraf ini terutama membahas apa?”","Temukan ide pokok dari sebuah bacaan di buku."],
+ "Teks Deskripsi":["Teks deskripsi menggambarkan objek dengan kata-kata sehingga pembaca dapat membayangkannya.","🔍 Gunakan kata yang menunjukkan warna, bentuk, ukuran, dan sifat.","Deskripsikan benda favoritmu dalam 3–5 kalimat."],
+ "Colors":["Colors are words we use to describe the color of things. Examples: red, blue, yellow and green.","🎨 Look around you and find objects with different colors.","Write five English color words."],
+ "Family":["Family members include father, mother, brother, sister, grandfather and grandmother.","🏠 Think about the people in your family.","Draw a simple family tree and label it."],
+ "Rukun Islam":["Rukun Islam adalah lima dasar utama dalam kehidupan seorang muslim: syahadat, salat, zakat, puasa, dan haji bagi yang mampu.","🕌 Ingat urutannya dengan membuat kartu 1–5.","Buat satu contoh sikap yang menunjukkan pengamalan Rukun Islam."],
+ "Zakat dan Sedekah":["Zakat adalah kewajiban bagi muslim yang memenuhi syarat, sedangkan sedekah adalah pemberian sukarela sebagai bentuk kebaikan.","🤲 Kebaikan tidak selalu berupa uang; membantu orang lain juga bernilai baik.","Tuliskan tiga contoh sedekah yang dapat dilakukan anak."],
+ "Pancaindra":["Manusia memiliki lima pancaindra: mata, telinga, hidung, lidah, dan kulit.","👀 Setiap pancaindra memiliki fungsi yang berbeda.","Pasangkan pancaindra dengan fungsi yang tepat."],
+ "Ekosistem":["Ekosistem terdiri dari makhluk hidup dan lingkungan tempat mereka hidup yang saling berinteraksi.","🌳 Amati halaman rumah atau sekolah.","Buat peta kecil ekosistem yang kamu lihat."]
+ };
+ let key=Object.keys(info).find(k=>t.includes(k))||pick(Object.keys(info));
+ return info[key];
+}
+function make(){
+ const c=cls(),m=$("mapel").value,t=$("materi").value,g=$("gaya").value;
+ const theme=$("tema").value, template=$("template").value;
+ const inf=content(), title=$("judul").value||`Petualangan ${t}`, school=$("sekolah").value||"Worksheet SD";
+ const names={story:"Story Adventure",cards:"Learning Cards",lab:"Mission Lab",map:"Concept Map",comic:"Comic Challenge",journal:"Reflection Journal"};
+ let activity;
+ if(template==="cards") activity=[["🃏 KARTU 1","Tulis definisi atau ide utama materi."],["🃏 KARTU 2","Gambar satu contoh dan beri label."],["🃏 KARTU 3","Tuliskan satu hal yang masih ingin kamu ketahui."]];
+ else if(template==="lab") activity=[["🔬 MISI 1","Amati contoh nyata dari materi ini di sekitar kamu."],["🧪 MISI 2","Catat hasil pengamatan dalam tiga poin."],["🏁 MISI 3","Buat kesimpulan singkat dengan kata-katamu sendiri."]];
+ else if(template==="map") activity=[["🧠 PUSAT IDE",inf[0]],["🔗 HUBUNGKAN","Tarik garis dari konsep utama ke contoh yang sesuai."],["🌟 PERLUAS","Tambahkan dua ide baru yang berhubungan."]];
+ else if(template==="comic") activity=[["💬 PANEL 1","Buat tokoh dan tempat kejadian."],["💬 PANEL 2","Tunjukkan masalah atau pertanyaan tentang materi."],["💬 PANEL 3","Tunjukkan penyelesaian menggunakan konsep yang dipelajari."]];
+ else if(template==="journal") activity=[["📓 AKU TAHU",inf[0]],["✍️ AKU MENCOBA",inf[2]],["⭐ AKU MERASA","Tuliskan bagian yang paling menyenangkan atau menantang."]];
+ else activity=[["💡 KONSEP UTAMA",inf[0]],["👀 LIHAT & TEMUKAN",inf[1]],["⭐ AKU BISA",inf[2]]];
+
+ let p=`<div class="page cover"><div class="topline"><span>WORKSHEET STUDIO 4.0</span><span>${c} • ${m}</span></div>
+ <h1>${title}</h1><div class="subtitle">${school}<br>${t}</div>
+ <span class="tag">${names[template].toUpperCase()} • BELAJAR • BERKARYA</span>
+ <div class="name"><div>Nama: ______________________________</div><div>Kelas: ${c} &nbsp;&nbsp;&nbsp; Tanggal: __________________</div></div></div>`;
+
+ p+=`<div class="page section"><span class="ribbon">01 • KENALI MATERI</span><h2>${t}</h2>
+ <p class="lead">Pahami inti materi, lalu ubah pengetahuanmu menjadi gambar, kata kunci, dan contoh.</p><div class="cards">`;
+ activity.forEach((a,i)=>p+=`<div class="info ${["c1","c2","c3","c4"][i%4]}"><h3>${a[0]}</h3><p>${a[1]}</p></div>`);
+ p+=`</div><div class="activity"><h3>🧠 Peta Ingatan</h3><small>Tulis 3–5 kata kunci yang paling kamu ingat.</small><div class="bigBox">KATA KUNCI • SIMBOL • GAMBAR</div></div>
+ <div class="footer"><span>Worksheet Studio 4.0</span><span>Halaman 2</span></div></div>`;
+
+ if(template==="comic"){
+   p+=`<div class="page section"><span class="ribbon">02 • COMIC CHALLENGE</span><h2>Ceritakan dengan gambar 💬</h2>
+   <p class="lead">Buat komik 3 panel yang menggunakan konsep ${t}.</p>
+   <div class="cards"><div class="activity"><h3>Panel 1</h3><div class="bigBox" style="height:65mm">GAMBAR</div></div>
+   <div class="activity"><h3>Panel 2</h3><div class="bigBox" style="height:65mm">GAMBAR</div></div>
+   <div class="activity"><h3>Panel 3</h3><div class="bigBox" style="height:65mm">GAMBAR</div></div>
+   <div class="activity"><h3>💬 Dialog</h3><div class="blanks"><div class="blank">Tokoh berkata ...</div><div class="blank">Kesimpulannya ...</div></div></div></div>
+   <div class="footer"><span>Worksheet Studio 4.0</span><span>Halaman 3</span></div></div>`;
+ } else {
+   p+=`<div class="page section"><span class="ribbon">02 • AKTIVITAS</span><h2>Ayo eksplorasi!</h2>
+   <p class="lead">Kerjakan dengan warna dan gambar. Tidak harus selalu menulis panjang.</p>
+   <div class="activity"><h3>🧩 Cocokkan</h3><div class="match"><div class="left">A. Konsep utama</div><div class="right">1. Contoh sehari-hari</div><div class="left">B. Kata kunci</div><div class="right">2. Ide penting</div><div class="left">C. Contoh</div><div class="right">3. Hal yang dapat diamati</div></div></div>
+   <div class="activity"><h3>✏️ Lengkapi</h3><div class="blanks"><div class="blank">Hal terpenting yang saya pelajari adalah ...</div><div class="blank">Contoh yang saya temukan adalah ...</div><div class="blank">Saya masih ingin tahu tentang ...</div></div></div>
+   <div class="footer"><span>Worksheet Studio 4.0</span><span>Halaman 3</span></div></div>`;
+ }
+ p+=`<div class="page section"><span class="ribbon">03 • KARYA SAYA</span><h2>Show your learning ✨</h2>
+ <p class="lead">Buktikan pemahamanmu lewat karya sederhana. Gunakan warna, gambar, dan kata-kata sendiri.</p>
+ <div class="activity"><h3>🎨 Tantangan Utama</h3><small>Buat poster mini tentang ${t}. Masukkan judul, 3 kata kunci, satu contoh, dan satu gambar.</small>
+ <div class="bigBox" style="height:120mm">AREA KARYA SISWA</div></div>
+ <div class="activity"><h3>⭐ Refleksi</h3><div class="blanks"><div class="blank">Hari ini saya belajar ...</div><div class="blank">Bagian yang paling saya sukai ...</div><div class="blank">Saya ingin mencoba ...</div></div></div>
+ <div class="footer"><span>Worksheet Studio 4.0 • ${m}</span><span>Halaman 4</span></div></div>`;
+ $("paper").innerHTML=p;$("paper").className="paper theme-"+theme;$("paper").style.display="block";$("empty").style.display="none";
+}
+function updateTemplatePreview(){const n={story:"Cerita & eksplorasi",cards:"Kartu belajar",lab:"Misi eksperimen",map:"Peta konsep",comic:"Komik 3 panel",journal:"Jurnal refleksi"};$("templatePreview").innerHTML="✨ <b>"+n[$("template").value]+"</b> — format aktivitas akan menyesuaikan template ini.";}
+$("template").onchange=updateTemplatePreview;updateTemplatePreview();
+$("generate").onclick=make;$("regen").onclick=make;
+$("print").onclick=()=>{if($("paper").style.display==="none")make();setTimeout(()=>window.print(),100)};
+$("full").onclick=()=>{if($("paper").style.display==="none")make();$("paper").scrollIntoView({behavior:"smooth"})};
+</script>
+</body>
+</html>
